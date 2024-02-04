@@ -136,7 +136,43 @@ class BinaryTree {
    * (i.e. are at the same level but have different parents. ) */
 
   areCousins(node1, node2) {
+    if (!this.root) {
+      return false; // Empty tree, no nodes to compare
+    }
 
+    const queue = [];
+    let foundNode1 = false;
+    let foundNode2 = false;
+
+    queue.push({ node: this.root, parent: null, level: 0 });
+
+    while (queue.length > 0) {
+      const current = queue.shift();
+
+      if (current.node === node1) {
+        foundNode1 = { parent: current.parent, level: current.level };
+      }
+
+      if (current.node === node2) {
+        foundNode2 = { parent: current.parent, level: current.level };
+      }
+
+      if (foundNode1 && foundNode2) {
+        // Both nodes are found, check if they are cousins
+        return foundNode1.level === foundNode2.level && foundNode1.parent !== foundNode2.parent;
+      }
+
+      if (current.node.left) {
+        queue.push({ node: current.node.left, parent: current.node, level: current.level + 1 });
+      }
+
+      if (current.node.right) {
+        queue.push({ node: current.node.right, parent: current.node, level: current.level + 1 });
+      }
+    }
+
+    // If either node is not found, they are not cousins
+    return false;
   }
 
   /** Further study!
