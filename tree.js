@@ -35,7 +35,21 @@ class Tree {
   /** countEvens(): count all of the nodes in the tree with even values. */
 
   countEvens() {
+    if (!this.root) {
+      return 0; // Return 0 for an empty tree
+    }
 
+    const dfs = (node) => {
+      let count = node.val % 2 === 0 ? 1 : 0;
+
+      for (const child of node.children) {
+        count += dfs(child);
+      }
+
+      return count;
+    };
+
+    return dfs(this.root);
   }
 
   /** numGreater(lowerBound): return a count of the number of nodes
