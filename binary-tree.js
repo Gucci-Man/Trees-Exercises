@@ -26,8 +26,8 @@ class BinaryTree {
         return depth; // Reached a leaf node
       }
 
-      let leftDepth = null;
-      let rightDepth = null;
+      let leftDepth = 0;
+      let rightDepth = 0;
 
       if (node.left) {
         leftDepth = dfs(node.left, depth + 1);
@@ -77,7 +77,31 @@ class BinaryTree {
    * The path doesn't need to start at the root, but you can't visit a node more than once. */
 
   maxSum() {
+    if (!this.root) {
+      return 0; // Empty tree has sum 0
+    }
 
+    let maxPathSum = Number.MIN_SAFE_INTEGER;
+
+    const dfs = (node) => {
+      if (!node) {
+        return 0; // Null node has sum 0
+      }
+
+      // Calculate the sum for the left and right subtrees
+      const leftSum = Math.max(0, dfs(node.left));
+      const rightSum = Math.max(0, dfs(node.right));
+
+      // Update the maximum path sum considering the current node
+      maxPathSum = Math.max(maxPathSum, leftSum + rightSum + node.val);
+
+      // Return the maximum sum achievable from the current subtree
+      return Math.max(leftSum, rightSum) + node.val;
+    };
+
+    dfs(this.root); // Start the depth-first search from the root
+
+    return maxPathSum;
   }
 
   /** nextLarger(lowerBound): return the smallest value in the tree
