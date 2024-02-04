@@ -47,7 +47,30 @@ class BinaryTree {
    * the length of the longest path from the root to a leaf. */
 
   maxDepth() {
+    if (!this.root) {
+      return 0; // Empty tree has depth 0
+    }
 
+    const dfs = (node, depth) => {
+      if (!node.left && !node.right) {
+        return depth; // Reached a leaf node
+      }
+
+      let leftDepth = 0;
+      let rightDepth = 0;
+
+      if (node.left) {
+        leftDepth = dfs(node.left, depth + 1);
+      }
+
+      if (node.right) {
+        rightDepth = dfs(node.right, depth + 1);
+      }
+
+      return Math.max(leftDepth, rightDepth);
+    };
+
+    return dfs(this.root, 1); // Start the depth calculation from the root
   }
 
   /** maxSum(): return the maximum sum you can obtain by traveling along a path in the tree.
