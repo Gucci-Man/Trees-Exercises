@@ -15,7 +15,21 @@ class Tree {
   /** sumValues(): add up all of the values in the tree. */
 
   sumValues() {
-    
+    if (!this.root) {
+      return 0; // Return 0 for an empty tree
+    }
+
+    const dfs = (node) => {
+      let sum = node.val;
+
+      for (const child of node.children) {
+        sum += dfs(child);
+      }
+
+      return sum;
+    };
+
+    return dfs(this.root);
   }
 
   /** countEvens(): count all of the nodes in the tree with even values. */
