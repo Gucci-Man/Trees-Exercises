@@ -56,7 +56,21 @@ class Tree {
    * whose value is greater than lowerBound. */
 
   numGreater(lowerBound) {
+    if (!this.root) {
+      return 0; // Return 0 for an empty tree
+    }
 
+    const dfs = (node) => {
+      let count = node.val > lowerBound ? 1 : 0;
+
+      for (const child of node.children) {
+        count += dfs(child);
+      }
+
+      return count;
+    };
+
+    return dfs(this.root);
   }
 }
 
