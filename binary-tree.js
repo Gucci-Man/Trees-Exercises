@@ -108,7 +108,27 @@ class BinaryTree {
    * which is larger than lowerBound. Return null if no such value exists. */
 
   nextLarger(lowerBound) {
+    if (!this.root) {
+      return null; // Empty tree, no value exists
+    }
 
+    let result = null;
+
+    const inorderTraversal = (node) => {
+      if (node) {
+        inorderTraversal(node.left);
+
+        if (node.val > lowerBound && (result === null || node.val < result)) {
+          result = node.val;
+        }
+
+        inorderTraversal(node.right);
+      }
+    };
+
+    inorderTraversal(this.root); // Start the in-order traversal from the root
+
+    return result;
   }
 
   /** Further study!
